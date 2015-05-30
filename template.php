@@ -80,9 +80,12 @@ global $dbg;
         <div class="content">
             <div class="header">
                 <div class="line">
-                     DBG Enabled at <br />
-                     file: <?php echo $dbg->enable_backtrace[1]['file'];?><br />
-                     and line: <?php echo $dbg->enable_backtrace[1]['line'];?><br />
+                    Controller:<?php echo $dbg->controller; ?><br />
+                    Action:<?php echo $dbg->action; ?><br />
+                    <br />
+                    DBG Enabled at <br />
+                    file: <?php echo $dbg->enable_backtrace[1]['file'];?><br />
+                    and line: <?php echo $dbg->enable_backtrace[1]['line'];?><br />
                 </div>
             </div> 
             <?php

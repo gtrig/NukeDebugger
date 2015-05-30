@@ -6,6 +6,7 @@ class NukeDebugger
     public $data_sql;
     public $data_text;
     public $enable;
+    public $forceText;
     
     public function addArray($data,$description)
     {
@@ -39,18 +40,25 @@ class NukeDebugger
     
     public function display()
     {
-        ob_start();
-        include nsdg_path."template.php";
-        $data = ob_get_contents();
-        ob_end_clean();
-        ?>
-        
-        <script type="text/javascript">        
-        debug_window = window.open("","NukeDebugger Output","width=680,height=600,resizable,scrollbars=yes");
-        debug_window.document.write("<?php echo str_replace("\n", '\n', str_replace('"', '\"', addcslashes(str_replace("\r", '', (string)$data), "\0..\37'\\/")));?>");
-        debug_window.document.close();
-        </script>
-        <?php
+        if(!$this->forceText)
+        {
+            ob_start();
+            include nsdg_path."template.php";
+            $data = ob_get_contents();
+            ob_end_clean();
+            ?>
+            
+            <script type="text/javascript">        
+            debug_window = window.open("","NukeDebugger Output","width=680,height=600,resizable,scrollbars=yes");
+            debug_window.document.write("<?php echo str_replace("\n", '\n', str_replace('"', '\"', addcslashes(str_replace("\r", '', (string)$data), "\0..\37'\\/")));?>");
+            debug_window.document.close();
+            </script>
+            <?php
+        }
+        else
+        {
+            include nsdg_path."template_clean.php";
+        }
     }
 }
 ?>
