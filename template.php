@@ -3,7 +3,6 @@ global $dbg;
 ?>
 <html>
     <head>
-        
         <title>NukeDebugger Output</title>
         <style type="text/css">
             
@@ -72,6 +71,10 @@ global $dbg;
             .group{
                 background-color:rgba(255,255,255,0.5);
             }
+            
+            .dbg_link{
+                color:white;
+            }
         </style>
         <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
         <script src="/helpers/NukeDebugger/nsdbg.js"></script>
@@ -86,6 +89,9 @@ global $dbg;
                     DBG Enabled at <br />
                     file: <?php echo $dbg->enable_backtrace[1]['file'];?><br />
                     and line: <?php echo $dbg->enable_backtrace[1]['line'];?><br />
+                    <br />
+                    Execution time: <?php echo $dbg->end_time - $dbg->start_time; ?><br />
+                    
                 </div>
             </div> 
             <?php
@@ -116,7 +122,7 @@ global $dbg;
                 }
             ?>
             </div>
-            <?
+            <?php
             }
             
             if($dbg->data_text){
@@ -146,7 +152,7 @@ global $dbg;
                 }
             ?>
             </div>
-            <?
+            <?php
             }
             
             if($dbg->data_array){
@@ -169,14 +175,16 @@ global $dbg;
                             Line : <?php echo($trace['line']);?>
                         </div>
                         <div class="code">
-                            <?php printr($entry["data"]);?>
+                            <pre>
+                            <?php echo $dbg->print_r_tree($entry["data"]);?>
+                            </pre>
                         </div>
                     </div>
                     <?php
                 }
             ?>
             </div>
-            <?
+            <?php
             }
             ?>
         </div>
