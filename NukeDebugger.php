@@ -77,7 +77,7 @@ class NukeDebugger
         }
     }
     
-    function print_r_tree($data)
+    function print_r_tree_clean($data)
     {
         // capture the output of print_r
         $out = print_r($data, true);
@@ -91,5 +91,47 @@ class NukeDebugger
         // print the javascript function toggleDisplay() and then the transformed output
         return '<script language="Javascript">function toggleDisplay(id) { document.getElementById(id).style.display = (document.getElementById(id).style.display == "block") ? "none" : "block"; }</script>'."\n$out";
     }
+    
+    
+    
 }
+
+function print_r_tree($data)
+{
+    // capture the output of print_r
+    $out = print_r($data, true);
+
+    // replace something like '[element] => <newline> (' with <a href="javascript:toggleDisplay('...');">...</a><div id="..." style="display: none;">
+    
+    $out = preg_replace_callback('/([ \t]*)(\[[^\]]+\][ \t]*\=\>[ \t]*[a-z0-9 \t_]+)\n[ \t]*\(/iU','preg_callback',$out);
+    // replace ')' on its own on a new line (surrounded by whitespace is ok) with '</div>
+    $out = preg_replace('/^\s*\)\s*$/m', '</div>', $out);
+
+    // print the javascript function toggleDisplay() and then the transformed output
+    return '<script language="Javascript">function toggleDisplay(id) { document.getElementById(id).style.display = (document.getElementById(id).style.display == "block") ? "none" : "block"; }</script>'."\n$out";
+}
+
+function preg_callback($matches)
+{
+    $id = trim(substr(md5(rand().$matches[0]), 0, 7));
+    
+    return $matches[1].'<a onClick="$(\'#'.$id.'\').toggle();" class=\"dbg_link\">'.$matches[2].'</a><div id="'.$id.'" style=\"display: block;\">';
+    
+}
+
+function count_array_dimension($array)
+{
+    if (is_array(reset($array)))
+    {
+        $return = count_array_dimension(reset($array)) + 1;
+    }
+
+    else
+    {
+        $return = 1;
+    }
+
+    return $return;
+}
+
 ?>

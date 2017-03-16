@@ -68,6 +68,14 @@ global $dbg;
                 margin:     0px 0px 0px 0px;
             }
             
+            .code a{
+                color: #196bcf;;
+            }
+            
+            .code a:hover{
+                cursor:pointer;
+            }
+            
             .group{
                 background-color:rgba(255,255,255,0.5);
             }
@@ -175,8 +183,10 @@ global $dbg;
                             Line : <?php echo($trace['line']);?>
                         </div>
                         <div class="code">
-                            <pre>
-                            <?php echo $dbg->print_r_tree($entry["data"]);?>
+                            <pre><?php 
+                                echo print_r_tree($entry["data"]);
+                            
+                            ?>
                             </pre>
                         </div>
                     </div>
