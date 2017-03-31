@@ -17,7 +17,7 @@ class NukeDebugger
     	$this->start_time = microtime(true);
     }
     
-    public function addArray($data,$description)
+    public function addArray($data,$description=null)
     {
         $entry['data']=$data;
         $entry['description']=$description;
@@ -26,7 +26,7 @@ class NukeDebugger
         if(!$this->enable) $this->enable();
     }
     
-    public function addText($data,$description){
+    public function addText($data,$description=null){
         $entry['data']=$data;
         $entry['description']=$description;
         $entry['backtrace']=debug_backtrace();
@@ -34,7 +34,7 @@ class NukeDebugger
         if(!$this->enable) $this->enable();
     }
     
-    public function addSql($data,$description){
+    public function addSql($data,$description=null){
         $entry['data']=$data;
         $entry['description']=$description;
         $entry['backtrace']=debug_backtrace();
