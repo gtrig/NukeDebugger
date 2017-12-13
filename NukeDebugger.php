@@ -83,10 +83,10 @@ class NukeDebugger
         $out = print_r($data, true);
     
         // replace something like '[element] => <newline> (' with <a href="javascript:toggleDisplay('...');">...</a><div id="..." style="display: none;">
-        $out = preg_replace('/([ \t]*)(\[[^\]]+\][ \t]*\=\>[ \t]*[a-z0-9 \t_]+)\n[ \t]*\(/iUe',"'\\1<a href=\"javascript:toggleDisplay(\''.(\$id = substr(md5(rand().'\\0'), 0, 7)).'\');\" class=\"dbg_link\">\\2</a><div id=\"'.\$id.'\" style=\"display: none;\">'", $out);
+        $out = preg_replace('/([ \t]*)(\[[^\]]+\][ \t]*\=\>[ \t]*[a-z0-9 \t_]+)\n[ \t]*\(/iUe',"'\\1<a href=\"javascript:toggleDisplay(\''.(\$id = substr(md5(rand().'\\0'), 0, 7)).'\');\" class=\"dbg_link\">\\2</a><div id=\"'.\$id.'\" style=\"display: none;\">('", $out);
     
         // replace ')' on its own on a new line (surrounded by whitespace is ok) with '</div>
-        $out = preg_replace('/^\s*\)\s*$/m', '</div>', $out);
+        $out = preg_replace('/^\s*\)\s*$/m', ')</div>', $out);
     
         // print the javascript function toggleDisplay() and then the transformed output
         return '<script language="Javascript">function toggleDisplay(id) { document.getElementById(id).style.display = (document.getElementById(id).style.display == "block") ? "none" : "block"; }</script>'."\n$out";
@@ -106,7 +106,7 @@ function print_r_tree($data)
     $out = preg_replace_callback('/([ \t]*)(\[[^\]]+\][ \t]*\=\>[ \t]*[a-z0-9 \t_]+)\n[ \t]*\(/iU','preg_callback',$out);
     // replace ')' on its own on a new line (surrounded by whitespace is ok) with '</div>
     $out = preg_replace('/^\s*\)\s*$/m', '</div>', $out);
-
+    $out = rtrim($out,'</div>');
     // print the javascript function toggleDisplay() and then the transformed output
     return '<script language="Javascript">function toggleDisplay(id) { document.getElementById(id).style.display = (document.getElementById(id).style.display == "block") ? "none" : "block"; }</script>'."\n$out";
 }

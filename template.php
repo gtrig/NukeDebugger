@@ -185,7 +185,6 @@ global $dbg;
                         <div class="code">
                             <pre><?php 
                                 echo print_r_tree($entry["data"]);
-                            
                             ?>
                             </pre>
                         </div>
